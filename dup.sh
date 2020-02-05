@@ -151,6 +151,12 @@ move () {
 	# true if real move requested
 	mode=$1
 
+	if $mode; then
+		echo "move real"
+	else
+		echo "move test"
+	fi
+
 	file_hashes
 	duplicate_hashes
 
@@ -201,6 +207,12 @@ delete () {
 
 	# true if real delete requested
 	mode=$1
+
+	if $mode; then
+		echo "delete real"
+	else
+		echo "delete test"
+	fi
 
 	file_hashes
 	duplicate_hashes
