@@ -7,6 +7,8 @@
 
 dup.sh is a bash script to find and optionally move or delete duplicate files.
 
+*Warning: dup.sh uses sha1 only, if the hashes of two files are equal, they are considered to be the same. No byte-to-byte comparison is performed.*
+
 Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdupes) with some differences:
 
 - dup.sh saves the intermediate processing state. This is the main reason I created this script because when I want to run fdupes over a huge number of files spread across many folders in a network share, it takes a lot of time and if something happens (if I terminate the execution etc.), it has to restart, there is no way to save the intermediate state. Since dup.sh saves the intermediate state, it restarts the process from where it stopped and that is particularly useful while calculating the hashes, the most computationally heavy part of the process.
