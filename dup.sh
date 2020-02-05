@@ -2,7 +2,7 @@
 
 clean() {
 	
-	rm -f .dup.file_list .dup.file_hashes .dup.duplicate_hashes .dup.duplicate_files .dup.remaining_files .dup.tmp.file_hashes
+	rm -f .dup.file_list .dup.file_hashes .dup.duplicate_hashes .dup.duplicate_files .dup.remaining_files
 
 }
 
@@ -47,7 +47,7 @@ file_hashes () {
 
 		echo ".number of hashes missing to calculate: $(wc -l .dup.remaining_files | xargs | cut -f1 -d' ')"
 
-		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.tmp.file_hashes
+		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -63,7 +63,7 @@ file_hashes () {
 		touch .dup.file_hashes
 
 		# calculates sha1 for every file in file list in parallel
-		cat .dup.file_list | parallel --bar -I% --max-args 1 shasum % ">>" .dup.tmp.file_hashes
+		cat .dup.file_list | parallel --bar -I% --max-args 1 shasum % ">>" .dup.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -72,8 +72,6 @@ file_hashes () {
 		fi
 
 	fi
-
-	sort -k 1 -k 2 .dup.tmp.file_hashes > .dup.file_hashes
 
 }
 
@@ -115,7 +113,7 @@ duplicate_files () {
 		cat .dup.duplicate_hashes | while read hash; do
 
 			# append the files having same hash
-			grep $hash .dup.file_hashes | cut -c43- >> .dup.duplicate_files
+			grep $hash .dup.file_hashes | cut -c43- | sort >> .dup.duplicate_files
 			# append an empty line
 			echo "" >> .dup.duplicate_files
 
@@ -150,7 +148,7 @@ move () {
 		first=true
 
 		# find the files with this hash value
-		grep $hash .dup.file_hashes | cut -c43- | while read file; do
+		grep $hash .dup.file_hashes | cut -c43- | sort | while read file; do
 
 			# omit the first file
 			if $first; then
@@ -196,7 +194,7 @@ delete () {
 		first=true
 
 		# find the files with this hash value
-		grep $hash .dup.file_hashes | cut -c43- | while read file; do
+		grep $hash .dup.file_hashes | cut -c43- | sort | while read file; do
 
 			# omit the first file
 			if $first; then
@@ -309,7 +307,6 @@ case "$1" in
 		echo ""
 		echo "  temporary files:"
 		echo "	- dup.remaining_files"
-		echo "	- dup.tmp.file_hashes"
 		echo ""
 		echo "  it is possible to run each stage individually by file_list, file_hashes, duplicate_hashes, duplicate_files commands"
 		echo ""
