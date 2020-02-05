@@ -11,7 +11,7 @@ Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdup
 
 - dup.sh saves the intermediate processing state. This is the main reason I created this script because when I want to run fdupes over a huge number of files spread across many folders in a network share, it takes a lot of time and if something happens (if I terminate the execution etc.), it has to restart, there is no way to save the intermediate state. Since dup.sh saves the intermediate state, it restarts the process from where it stopped and that is particularly useful while calculating the hashes, the most computationally heavy part of the process.
 
-- dup.sh uses sha1 by default. It uses [shasum](https://linux.die.net/man/1/shasum) tool and you can easily change this to something else. I think the performance difference between md5 and sha1 is minimal in modern computers so I decided to use sha1.
+- dup.sh uses sha1 by default. It uses [sha1sum](https://linux.die.net/man/1/sha1sum) tool and you can easily change this to something else. I think the performance difference between md5 and sha1 is minimal in modern computers so I decided to use sha1.
 
 - dup.sh uses the awesome [GNU Parallel](https://www.gnu.org/software/parallel/) tool to distribute the calculation of hashes to the cores.
 
