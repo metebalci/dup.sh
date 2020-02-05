@@ -17,7 +17,7 @@ Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdup
 
 - Because dup.sh is a shell script, it has minimal dependencies and it does not need compilation.
 
-- dup.sh can both delete and move duplicate files. It keeps the first file in the sorted set of duplicate file paths, so if there are duplicate files in multiple folders, the one in the shallower hierarchy is preferred.
+- dup.sh can both delete and move duplicate files. It keeps the first file in the dictionary sorted set of duplicate file paths.
 
 - dup.sh always run in recursive mode, it always goes into subdirectories, however it does not follow symbolic links.
 
