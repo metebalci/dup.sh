@@ -42,7 +42,7 @@ file_hashes () {
 
 		echo ".number of hashes missing to calculate: $(wc -l .dup.remaining_files | xargs | cut -f1 -d' ')"
 
-		cat .dup.remaining_files | parallel --bar -I% --max-args 1 shasum % ">>" .dup.file_hashes
+		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then

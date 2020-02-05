@@ -1,5 +1,9 @@
 dist: bionic
 language: minimal
+addons:
+  apt:
+    packages:
+      - parallel
 install:
   - chmod +x dup.sh
   - chmod +x test.sh
