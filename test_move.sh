@@ -11,30 +11,27 @@ echo b > "te st.folder/te st.sameb"
 
 ./dup.sh move
 
-if [ -f "te st.a" ]; then
-	echo "success te st.a do exist"
-else
-	echo "fail te st.a does not exist"
-	exit 1
-fi
+test_two () { 
 
-if [ -f .dup.moved_files/test.b ]; then
-	echo "success test.b is at moved folder"
-else
-	echo "fail test.b is not at moved folder"
-	exit 1
-fi
+	if [ -f "$1" ]; then
+		if [ -f ".dup.moved_files/$2" ]; then
+			echo "success $1 do exist"
+			echo "success $2 at moved folder"
+		else
+			exit 1
+		fi
+	elif [ -f ".dup.moved_files/$1" ]; then
+		if [ -f "$2" ]; then
+			echo "success $1 is at moved folder"
+			echo "success $2 do exist"
+		else
+			exit 1
+		fi
+	else
+		exit 1
+	fi
 
-if [ -f .dup.moved_files/test.samea ]; then
-	echo "success test.samea is at moved folder"
-else
-	echo "fail test.samea is not at moved folder"
-	exit 1
-fi
+}
 
-if [ -f "te st.folder/te st.sameb" ]; then
-	echo "success te st.folder/te st.sameb do exist"
-else
-	echo "fail te st.folder/te st.sameb does not exist"
-	exit 1
-fi
+test_two "te st.a" "test.samea"
+test_two "test.b" "te st.folder/te st.sameb"

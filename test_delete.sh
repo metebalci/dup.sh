@@ -11,30 +11,27 @@ echo b > "te st.folder/te st.sameb"
 
 ./dup.sh delete
 
-if [ ! -f "./te st.a" ]; then
-	echo "fail te st.a does not exist"
-	exit 1
-else
-	echo "success te st.a do exist"
-fi
+test_two () { 
 
-if [ -f test.b ]; then
-	echo "fail test.b do exist"
-	exit 1
-else
-	echo "success test.b does not exist"
-fi
+	if [ -f "$1" ]; then
+		if [ ! -f "$2" ]; then
+			echo "success $1 do exist"
+			echo "success $2 does not exist"
+		else
+			exit 1
+		fi
+	elif [ ! -f "$1" ]; then
+		if [ -f "$2" ]; then
+			echo "success $1 does not exist"
+			echo "success $2 do exist"
+		else
+			exit 1
+		fi
+	else
+		exit 1
+	fi
 
-if [ -f test.samea ]; then
-	echo "fail test.samea do exist"
-	exit 1
-else
-	echo "success test.samea does not exist"
-fi
+}
 
-if [ ! -f "te st.folder/te st.sameb" ]; then
-	echo "fail te st.folder/te st.sameb does not exist"
-	exit 1
-else
-	echo "success te st.folder/te st.sameb do exist"
-fi
+test_two "te st.a" "test.samea"
+test_two "test.b" "te st.folder/te st.sameb"
