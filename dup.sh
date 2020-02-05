@@ -127,7 +127,6 @@ prepare () {
 
 	duplicate_files
 
-
 } 
 
 stat () {
