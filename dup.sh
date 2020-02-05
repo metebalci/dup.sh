@@ -123,17 +123,27 @@ duplicate_files () {
 
 }
 
-prepare() {
+prepare () {
+
+	duplicate_files
+
+
+} 
+
+stat () {
+
+	echo "calculating stats"
 
 	duplicate_files
 	
 	numfiles=$(wc -l .dup.file_list | xargs | cut -f1 -d' ')
-	numsets=$(wc -l .dup.duplicate_hashes | xargs | cut -f1 -d' ')
-	numfilesinsets=$(grep -f .dup.duplicate_hashes .dup.file_hashes | wc -l | xargs | cut -f1 -d' ')
+	echo ".number of files: $numfiles"
 
-	echo "number of files: $numfiles"
-	echo "number of duplicate sets (set=files having same hash): $numsets"
-	echo "number of files in duplicate sets: $numfilesinsets"
+	numsets=$(wc -l .dup.duplicate_hashes | xargs | cut -f1 -d' ')
+	echo ".number of duplicate sets (set=files having same hash): $numsets"
+
+	numfilesinsets=$(grep -f .dup.duplicate_hashes .dup.file_hashes | wc -l | xargs | cut -f1 -d' ')
+	echo ".number of files in duplicate sets: $numfilesinsets"
 
 }
 
@@ -299,11 +309,14 @@ case "$1" in
 		echo "				.dup.file_list and .dup.file_hashes are always compared, and if a difference is found, these hashes arecalculated."
 		echo "				move (and test) uses only .dup.duplicate_hashes"
 		echo ""
-		echo "usage: dup.sh clean|prepare|test|move"
+		echo "usage: dup.sh clean|prepare|stat|testdelete|delete|testmove|move"
 		echo ""
 		echo "	clean: removes the dup processing and temporary files, but not moved files folder"
 		echo "	prepare: creates dup processing files, it can be used to break the processing into calculating hashes and actually moving files."
-		echo "	test: shows the mv commands, does not execute them, nothing is moved, creates processing files if needed"
+		echo "	stat: uses prepare result to show a few stats"
+		echo "	testdelete: shows the rm commands, does not execute them, nothing is deleted"
+		echo "	delete: actually removes all duplicate files but one, creates processing files if needed"
+		echo "	testmove: shows the mv commands, does not execute them, nothing is moved"
 		echo "	move: actually moves all duplicate files but one, creates processing files if needed"
 		echo ""
 		echo "	processing files are created if they do not exist, this allows partial processing. the files are:"
@@ -312,11 +325,12 @@ case "$1" in
 		echo "	- .dup.file_hashes: (sha1) hashes of all files in file_list"
 		echo "	- .dup.duplicate_hashes: list of duplicate hashes in file_hashes"
 		echo "	- .dup.duplicate_files: list of duplicate files grouped and groups are separeted by one empty line"
+		echo "	                        this file is not used for move or delete, it is only for human consumption"
 		echo ""
 		echo "	recommended use:"
 		echo "		- run dup.sh clean"
-		echo "		- run dup.sh prepare, and check .dup.duplicate_files"
-		echo "		- run dup.sh move, and check files remained and .dup.moved_files folder"
+		echo "		- run dup.sh prepare, and check .dup.duplicate_files if you want"
+		echo "		- run dup.sh move or delete, if moved check files remained and .dup.moved_files folder"
 		echo "		- delete .dup.moved_files folder if you are sure all are OK"
 		echo ""
 		echo "  temporary files:"
