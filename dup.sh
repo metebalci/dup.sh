@@ -125,7 +125,7 @@ duplicate_files () {
 
 prepare () {
 
-	duplicate_files
+	duplicate_hashes
 
 } 
 
@@ -133,7 +133,7 @@ stat () {
 
 	echo "calculating stats"
 
-	duplicate_files
+	duplicate_hashes
 	
 	numfiles=$(wc -l .dup.file_list | xargs | cut -f1 -d' ')
 	echo ".number of files: $numfiles"
@@ -315,7 +315,7 @@ case "$1" in
 		echo "usage: dup.sh clean|prepare|stat|testdelete|delete|testmove|move"
 		echo ""
 		echo "	clean: removes the dup processing and temporary files, but not moved files folder"
-		echo "	prepare: creates dup processing files, it can be used to break the processing into calculating hashes and actually moving files."
+		echo "	prepare: creates dup processing files for move or delete, but not duplicate files."
 		echo "	stat: uses prepare result to show a few stats"
 		echo "	testdelete: shows the rm commands, does not execute them, nothing is deleted"
 		echo "	delete: actually removes all duplicate files but one, creates processing files if needed"
@@ -329,6 +329,7 @@ case "$1" in
 		echo "	- .dup.duplicate_hashes: list of duplicate hashes in file_hashes"
 		echo "	- .dup.duplicate_files: list of duplicate files grouped and groups are separeted by one empty line"
 		echo "	                        this file is not used for move or delete, it is only for human consumption"
+		echo "													you can create this file by duplicate_files command"
 		echo ""
 		echo "	recommended use:"
 		echo "		- run dup.sh clean"
