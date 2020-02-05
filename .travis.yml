@@ -1,0 +1,7 @@
+dist: bionic
+language: minimal
+install:
+  - chmod +x dup.sh
+  - chmod +x test.sh
+script:
+  - ./test.sh
