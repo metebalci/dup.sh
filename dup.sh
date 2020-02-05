@@ -17,7 +17,12 @@ file_list () {
 		echo "creating file_list"
 
 		# processes only regular files (type f)
-		find -sx . -type f > .dup.file_list
+		find . -type f > .dup.file_list
+
+		if [ $? -ne 0 ]; then
+			echo "error: find failed"
+			exit 1
+		fi
 
 	fi
 
@@ -46,6 +51,7 @@ file_hashes () {
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
+			echo "error: parallel failed"
 			exit 1
 		fi
 
@@ -61,10 +67,13 @@ file_hashes () {
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
+			echo "error: parallel failed"
 			exit 1
 		fi
 
 	fi
+
+	sort -k 1 -k 2 .dup.file_hashes > .dup.file_hashes
 
 }
 
