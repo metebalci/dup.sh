@@ -128,12 +128,6 @@ move () {
 	# true if real move requested
 	mode=$1
 
-	# the move folder should not already exist
-	if [ -d .dup.moved_files ]; then
-		echo "error: .dup.moved_files already exists. please remove it to do another move."
-		exit 1
-	fi
-
 	file_hashes
 	duplicate_hashes
 
@@ -227,6 +221,12 @@ fi
 if [ ! -x "$(command -v parallel)" ]; then
 	echo "error: please install gnu parallel program."
 	exit 1 
+fi
+
+# the move folder should not already exist
+if [ -d .dup.moved_files ]; then
+	echo "error: .dup.moved_files folder exists. please move it somewhere else or remove it."
+	exit 1
 fi
 
 case "$1" in

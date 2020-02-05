@@ -8,4 +8,8 @@ install:
   - chmod +x dup.sh
   - chmod +x test.sh
 script:
-  - ./test.sh
+  - ./test_prepare.sh
+  - rm -rf .dup.moved_files
+  - ./test_move.sh
+  - rm -rf .dup.moved_files
+  - ./test_delete.sh
