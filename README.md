@@ -23,7 +23,7 @@ Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdup
 
 # Compatibility
 
-I am using the script in macOS. Since it is a shell script, it should run on Linux and probably in Windows Subsystem for Linux, maybe with a slight modification.
+I am using the script in macOS. test.sh runs on Linux on Travis CI.
 
 # Usage
 
