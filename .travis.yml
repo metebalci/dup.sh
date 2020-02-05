@@ -6,7 +6,9 @@ addons:
       - parallel
 install:
   - chmod +x dup.sh
-  - chmod +x test.sh
+  - chmod +x test_prepare.sh
+  - chmod +x test_move.sh
+  - chmod +x test_delete.sh
 script:
   - ./test_prepare.sh
   - rm -rf .dup.moved_files
