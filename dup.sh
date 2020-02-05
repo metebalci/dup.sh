@@ -278,6 +278,10 @@ case "$1" in
 	prepare)
 		prepare
 		;;
+	
+	stat)
+		stat
+		;;
 
 	testmove)
 		move false
