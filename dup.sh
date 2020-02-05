@@ -2,7 +2,7 @@
 
 clean() {
 	
-	rm -f .dup.file_list .dup.file_hashes .dup.duplicate_hashes .dup.duplicate_files .dup.remaining_files
+	rm -f .dup.file_list .dup.file_hashes .dup.duplicate_hashes .dup.duplicate_files .dup.remaining_files .dup.tmp.file_hashes
 
 }
 
@@ -47,7 +47,7 @@ file_hashes () {
 
 		echo ".number of hashes missing to calculate: $(wc -l .dup.remaining_files | xargs | cut -f1 -d' ')"
 
-		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.file_hashes
+		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.tmp.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -63,7 +63,7 @@ file_hashes () {
 		touch .dup.file_hashes
 
 		# calculates sha1 for every file in file list in parallel
-		cat .dup.file_list | parallel --bar -I% --max-args 1 shasum % ">>" .dup.file_hashes
+		cat .dup.file_list | parallel --bar -I% --max-args 1 shasum % ">>" .dup.tmp.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -73,7 +73,7 @@ file_hashes () {
 
 	fi
 
-	sort -k 1 -k 2 .dup.file_hashes > .dup.file_hashes
+	sort -k 1 -k 2 .dup.tmp.file_hashes > .dup.file_hashes
 
 }
 
@@ -309,6 +309,7 @@ case "$1" in
 		echo ""
 		echo "  temporary files:"
 		echo "	- dup.remaining_files"
+		echo "	- dup.tmp.file_hashes"
 		echo ""
 		echo "  it is possible to run each stage individually by file_list, file_hashes, duplicate_hashes, duplicate_files commands"
 		echo ""
