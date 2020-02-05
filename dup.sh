@@ -43,7 +43,7 @@ file_hashes () {
 		# combine existing file names in .dup.file_hashes and .dup.file_list
 		# sort and find uniq ones (so it only exists in .dup.file_list)
 		# calculate hashes only for that files and append to .dup.file_hashes
-		cut -c43- .dup.file_hashes | cat .dup.file_list - | sort | uniq -u > .dup.remaining_files
+		cut -c43- .dup.file_hashes | cat .dup.file_list - | sort -d | uniq -u > .dup.remaining_files
 
 		echo ".number of hashes missing to calculate: $(wc -l .dup.remaining_files | xargs | cut -f1 -d' ')"
 
@@ -88,7 +88,7 @@ duplicate_hashes () {
 		echo "finding duplicate_hashes"
 
 		# finds duplicate hashes, unique files are excluded from processing here
-		sort .dup.file_hashes | cut -c-40 | uniq -d > .dup.duplicate_hashes
+		sort -d .dup.file_hashes | cut -c-40 | uniq -d > .dup.duplicate_hashes
 		
 	fi
 
@@ -113,7 +113,7 @@ duplicate_files () {
 		cat .dup.duplicate_hashes | while read hash; do
 
 			# append the files having same hash
-			grep $hash .dup.file_hashes | cut -c43- | sort >> .dup.duplicate_files
+			grep $hash .dup.file_hashes | cut -c43- | sort -d >> .dup.duplicate_files
 			# append an empty line
 			echo "" >> .dup.duplicate_files
 
@@ -165,7 +165,7 @@ move () {
 		first=true
 
 		# find the files with this hash value
-		grep $hash .dup.file_hashes | cut -c43- | sort | while read file; do
+		grep $hash .dup.file_hashes | cut -c43- | sort -d | while read file; do
 
 			# omit the first file
 			if $first; then
@@ -211,7 +211,7 @@ delete () {
 		first=true
 
 		# find the files with this hash value
-		grep $hash .dup.file_hashes | cut -c43- | sort | while read file; do
+		grep $hash .dup.file_hashes | cut -c43- | sort -d | while read file; do
 
 			# omit the first file
 			if $first; then
