@@ -47,7 +47,7 @@ file_hashes () {
 
 		echo ".number of hashes missing to calculate: $(wc -l .dup.remaining_files | xargs | cut -f1 -d' ')"
 
-		cat .dup.remaining_files | parallel --bar -I% --max-args 1 sha1sum % ">>" .dup.file_hashes
+		cat .dup.remaining_files | parallel --bar --max-args 1 sha1sum {}">>" .dup.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -63,7 +63,7 @@ file_hashes () {
 		touch .dup.file_hashes
 
 		# calculates sha1 for every file in file list in parallel
-		cat .dup.file_list | parallel --bar -I% --max-args 1 shasum % ">>" .dup.file_hashes
+		cat .dup.file_list | parallel --bar --max-args 1 shasum {} ">>" .dup.file_hashes
 
 		# exit here if there is a problem in paralel execution
 		if [ $? -ne 0 ]; then
@@ -123,6 +123,20 @@ duplicate_files () {
 
 }
 
+prepare() {
+
+	duplicate_files
+	
+	numfiles=$(wc -l .dup.file_list | xargs | cut -f1 -d' ')
+	numsets=$(wc -l .dup.duplicate_hashes | xargs | cut -f1 -d' ')
+	numfilesinsets=$(grep -f .dup.duplicate_hashes .dup.file_hashes | wc -l | xargs | cut -f1 -d' ')
+
+	echo "number of files: $numfiles"
+	echo "number of duplicate sets (set=files having same hash): $numsets"
+	echo "number of files in duplicate sets: $numfilesinsets"
+
+}
+
 move () {
 
 	# true if real move requested
@@ -151,20 +165,20 @@ move () {
 			fi
 
 			# find the dir and base of file
-			dir=$(dirname $file)
-			base=$(basename $file)
+			dir=$(dirname "$file")
+			base=$(basename "$file")
 
 			if $mode; then
 
 				# create the intermediate directory
-				mkdir -p .dup.moved_files/$dir
+				mkdir -p ".dup.moved_files/$dir"
 				# move the file
-				mv $file .dup.moved_files/$dir/$base
+				mv "$file" ".dup.moved_files/$dir/$base"
 
 			else
 
 				# just print the potential move command
-				echo "mv $file .dup.moved_files/$dir/$base"
+				echo "mv $(file) .dup.moved_files/$dir/$base"
 
 			fi
 
@@ -198,7 +212,7 @@ delete () {
 
 			if $mode; then
 
-				rm -f $file
+				rm -f "$file"
 
 			else
 
@@ -252,7 +266,7 @@ case "$1" in
 		;;
 
 	prepare)
-		duplicate_files
+		prepare
 		;;
 
 	testmove)

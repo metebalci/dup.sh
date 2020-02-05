@@ -1,40 +1,40 @@
 #!/bin/bash
 
-rm -rf test.a test.b test.samea test.folder
+rm -rf "te st.a" test.b test.samea "te st.folder"
 ./dup.sh clean
 
-echo a > test.a
+echo a > "te st.a"
 echo b > test.b
 echo a > test.samea
-mkdir test.folder
-echo b > test.folder/test.sameb
+mkdir "te st.folder"
+echo b > "te st.folder/te st.sameb"
 
 ./dup.sh delete
 
-if [ ! -f ./test.a ]; then
-	echo "fail test.a does not exist"
+if [ ! -f "./te st.a" ]; then
+	echo "fail te st.a does not exist"
 	exit 1
 else
-	echo "success test.a do exist"
+	echo "success te st.a do exist"
 fi
 
-if [ ! -f ./test.b ]; then
-	echo "fail test.b does not exist"
+if [ -f test.b ]; then
+	echo "fail test.b do exist"
 	exit 1
 else
-	echo "success test.b do exist"
+	echo "success test.b does not exist"
 fi
 
-if [ -f ./test.samea ]; then
+if [ -f test.samea ]; then
 	echo "fail test.samea do exist"
 	exit 1
 else
 	echo "success test.samea does not exist"
 fi
 
-if [ -f ./test.folder/test.sameb ]; then
-	echo "fail test.folder/test.sameb do exist"
+if [ ! -f "te st.folder/te st.sameb" ]; then
+	echo "fail te st.folder/te st.sameb does not exist"
 	exit 1
 else
-	echo "success test.folder/test.sameb does not exist"
+	echo "success te st.folder/te st.sameb do exist"
 fi
