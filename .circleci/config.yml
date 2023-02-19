@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/python:3.6
+    steps:
+      - checkout
+      - run: chmod +x *.sh
+      - run: rm -rf .dup.moved_files
+      - run: ./test_prepare.sh
+      - run: rm -rf .dup.moved_files
+      - run: ./test_move.sh
+      - run: rm -rf .dup.moved_files
+      - run: ./test_delete.sh
