@@ -3,7 +3,7 @@
 
 **WARNING: This tool uses mv and rm commands, that may modify the file system, move and delete files. Use it with extra caution.**
 
-[![Test Status](https://travis-ci.com/metebalci/dup.sh.svg?branch=master)](https://travis-ci.com/metebalci/dup.sh)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/metebalci/dup.sh/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/metebalci/dup.sh/tree/master)
 
 dup.sh is a bash script to find and optionally move or delete duplicate files.
 
