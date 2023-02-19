@@ -27,10 +27,10 @@ Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdup
 
 Run dup.sh to see the usage. Basic commands:
 
-- dup.sh clean: cleans intermediate and temporary files
-- dup.sh prepare: prepare intermediate files, required for move and delete
-- dup.sh move: move duplicate files (leaving only one copy) to another folder (`.dup.moved_files`) keeping their directory structure, use testmove to see move commands instead of executing
-- dup.sh delete: delete duplicate files (leaving only one copy), use testdelete to see rm commands instead of executing
+- `dup.sh clean`: cleans intermediate and temporary files
+- `dup.sh prepare`: prepare intermediate files, required for move and delete
+- `dup.sh move`: move duplicate files (leaving only one copy) to another folder (`.dup.moved_files`) keeping their directory structure. use `testmove` to see move commands instead of executing
+- `dup.sh delete`: delete duplicate files (leaving only one copy). use `testdelete` to see rm commands instead of executing.
 
 Below is the output from a test run while running on Linux kernel repo.
 
