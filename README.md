@@ -23,73 +23,15 @@ Its functionally is similar to [fdupes](https://github.com/adrianlopezroche/fdup
 
 - dup.sh always run in recursive mode, it always goes into subdirectories, however it does not follow symbolic links.
 
-# Compatibility
-
-I am using the script in macOS. test.sh runs on Linux on Travis CI.
-
 # Usage
 
 Run dup.sh to see the usage. Basic commands:
 
-- dups.sh clean: cleans intermediate and temporary files
-- dups.sh prepare: prepare intermediate files, required for move and delete
-- dups.sh move: move duplicate files (leaving only one copy) to another folder keeping their directory structure, use testmove to see move commands instead of executing
-- dups.sh delete: delete duplicate files (leaving only one copy), use testdelete to see rm commands instead of executing
+- dup.sh clean: cleans intermediate and temporary files
+- dup.sh prepare: prepare intermediate files, required for move and delete
+- dup.sh move: move duplicate files (leaving only one copy) to another folder (`.dup.moved_files`) keeping their directory structure, use testmove to see move commands instead of executing
+- dup.sh delete: delete duplicate files (leaving only one copy), use testdelete to see rm commands instead of executing
 
 Below is the output from a test run while running on Linux kernel repo.
 
 ![dup.sh screenshot](dupsh.png?raw=true)
-
-# Performance
-
-I cloned [Linux kernel repo at Github](https://github.com/github/linux). Then I run `fdupes -mr .` and `dup.sh prepare` on a Mac Mini 2018 with Intel i7 six-core CPU. gtime is GNU time.
-
-fdupes:
-
-```
-$ gtime fdupes -mr .
-412 duplicate files (in 240 sets), occupying 1.7 megabytes
-
-0:11.68 real
-1.66 user
-9.94 sys
-0 amem
-11868 mmem
-```
-
-dup.sh:
-
-```
-$ gtime dup.sh prepare
-finding duplicate_files
-creating file_list
-.number of files: 62893
-calculating file_hashes
-.calculating hashes of all files
-100% 62893:0=0s ./virt/lib/irqbypass.c                                                         
-finding duplicate_hashes
-8:55.90 real
-1381.11 user
-906.31 sys
-0 amem
-50908 mmem
-```
-
-As you see in this example dup.sh is very slow. So the point of using it should not be performance but other factors as summarized in the description.
-
-# License
-
-Copyright (C) 2020 Mete Balci
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
